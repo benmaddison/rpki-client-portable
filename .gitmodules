@@ -1,0 +1,3 @@
+[submodule "src/rpkidump"]
+	path = src/rpkidump
+	url = https://github.com/benmaddison/rpkidump.git

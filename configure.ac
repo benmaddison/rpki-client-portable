@@ -214,6 +214,7 @@ AC_CONFIG_FILES([
 	include/Makefile
 	compat/Makefile
 	src/Makefile
+	src/rpkidump/Makefile
 ])
 
 AC_OUTPUT

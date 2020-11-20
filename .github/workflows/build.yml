@@ -8,17 +8,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: update package cache
-        run: apt update
+        run: sudo apt update
       - name: install dependencies
         run: >
-          apt install -y git
-                         autoconf
-                         automake
-                         libtool
-                         make
-                         gcc
-                         rsync
-                         libssl-dev
+          sudo apt install -y git
+                              autoconf
+                              automake
+                              libtool
+                              make
+                              gcc
+                              rsync
+                              libssl-dev
       - name: autogen
         run: ./autogen.sh
       - name: configure

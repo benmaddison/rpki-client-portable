@@ -4,21 +4,15 @@ on:
   - pull_request
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: update package cache
         run: sudo apt update
+      - name: upgade packages
+        run: sudo apt upgrade -y
       - name: install dependencies
-        run: >
-          sudo apt install -y git
-                              autoconf
-                              automake
-                              libtool
-                              make
-                              gcc
-                              rsync
-                              libssl-dev
+        run: sudo apt install -y git autoconf automake libtool make gcc rsync libssl-dev
       - name: autogen
         run: ./autogen.sh
       - name: configure

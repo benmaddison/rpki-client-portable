@@ -6,7 +6,8 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout source
+        uses: actions/checkout@v2
         with:
           submodules: true
       - name: update package cache

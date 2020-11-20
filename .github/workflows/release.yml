@@ -1,0 +1,53 @@
+name: release
+on:
+  push:
+    branches:
+      - "master"
+    tags:
+      - "*"
+jobs:
+  release:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout source
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: update package cache
+        run: sudo apt update
+      - name: install dependencies
+        run: sudo apt install -y git autoconf automake libtool make gcc rsync libssl-dev
+      - name: autogen
+        run: ./autogen.sh
+      - name: configure
+        run: ./configure
+      - name: make
+        run: make
+      - name: create release
+        id: release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: upload rpki-client binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: src/rpki-client
+          asset_name: rpki-client
+          asset_content_type: application/octet-stream
+      - name: upload rpkidump binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: src/rpkidump/rpkidump
+          asset_name: rpkidump
+          asset_content_type: application/octet-stream
